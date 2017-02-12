@@ -21,6 +21,8 @@ const querySchema = Joi.object().keys({
 
 var MESSAGE_STORE = []
 
+app.use(express.bodyParser())
+
 function saveMessage(message) {
 	return new Promise((resolve, reject) => {
 
@@ -64,7 +66,7 @@ app.get('/message', function (req, res) {
 		}
 
 		findMessage(query).then((response) => {
-			res.send(response)
+			res.json(response)
 		}).catch(e => {
 			res.status(500).send('ERROR TEHEH')
 		})
@@ -74,7 +76,7 @@ app.get('/message', function (req, res) {
 
 // returns all the messages
 app.get('/message/all', function (req, res) {
-  res.send(MESSAGE_STORE)
+  res.json(MESSAGE_STORE)
 })
 
 // creates a new message
@@ -83,7 +85,6 @@ app.post('/message', function (req, res) {
 
 	Joi.validate(req.body, messageSchema, function (err, value) {
 		if (err) {
-			console.log(err)
 			res.status(500).send('Please provide a valid message {"message": [string], "location": {"lat": [number], "lng": [number]}}')
 			return
 		}
