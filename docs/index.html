@@ -83,7 +83,7 @@
 			<div class="sidebar-spacer"></div>
 			<div class="sidebar-info">
 				<div class="sidebar-info-value">
-					123
+					2
 				</div>
 				<div class="sidebar-info-title">
 					Active Players
@@ -91,8 +91,8 @@
 			</div>
 
 			<div class="sidebar-info">
-				<div class="sidebar-info-value">
-					8
+				<div class="sidebar-info-value" id="messages30m">
+					-
 				</div>
 				<div class="sidebar-info-title">
 					Messages Last 30m
@@ -100,8 +100,8 @@
 			</div>
 
 			<div class="sidebar-info">
-				<div class="sidebar-info-value">
-					54
+				<div class="sidebar-info-value" id="messagesNear">
+					-
 				</div>
 				<div class="sidebar-info-title">
 					Messages Near You
@@ -144,6 +144,10 @@
 	      axios.get('http://go.javier.xyz:7904/message/all')
 	      .then(response => {
 	      	console.log(response.data)
+
+	      	document.getElementById('messages30m').innerHTML = response.data.length
+	      	document.getElementById('messagesNear').innerHTML = response.data.length
+
 	      	response.data.forEach(i => circle(i.location))
 	      })
 	    }
