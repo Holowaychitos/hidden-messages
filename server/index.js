@@ -81,6 +81,7 @@ app.get('/message/all', function (req, res) {
 app.post('/message', function (req, res) {
 	Joi.validate(req.body, messageSchema, function (err, value) {
 		if (err) {
+			console.log(err)
 			res.status(500).send('Please provide a valid message {"message": [string], "location": {"lat": [number], "lng": [number]}}')
 			return
 		}
