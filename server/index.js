@@ -1,6 +1,8 @@
-var express = require('express')
-var app = express()
-var Joi = require('joi')
+const express = require('express')
+const app = express()
+
+const Joi = require('joi')
+const _ = require('lodash')
 
 const PORT = process.env.PORT || 3000
 
@@ -17,28 +19,36 @@ const querySchema = Joi.object().keys({
     lng: Joi.number().required()
 }).required()
 
-var MESSAGE_STORE = [{
-	text: 'Im a test message',
-	location: {
-		lat: 0,
-		lng: 1
-	}
-}]
+var MESSAGE_STORE = []
 
 function saveMessage(message) {
 	return new Promise((resolve, reject) => {
-		MESSAGE_STORE.push(message)
+
+		const messageToPush = Object.assign({}, message, {
+			_id: parseInt(Math.random() * 46656, 10).toString(36),
+			_readsRemaining: 10
+		})
+
+		MESSAGE_STORE.push(messageToPush)
 		resolve(MESSAGE_STORE)
 	})
 }
 
 function findMessage(location) {
 	return new Promise((resolve, reject) => {
+		MESSAGE_STORE = _.filter(MESSAGE_STORE, message => message._readsRemaining > 0)
+
+		if (!MESSAGE_STORE.length) {
+			resolve({
+				result: []
+			})
+		}
+
+		var findedMessage = MESSAGE_STORE[Math.floor(Math.random() * MESSAGE_STORE.length)]
+		findedMessage._readsRemaining = findedMessage._readsRemaining - 1
+
 		resolve({
-			result: [{
-				text: 'Message',
-				location: location
-			}]
+			result: [findedMessage]
 		})
 	})
 }
@@ -85,4 +95,14 @@ app.post('/message', function (req, res) {
 })
 
 console.log('SERVER STARTING', PORT)
+
+// initializing
+saveMessage({
+	text: 'Im a test message',
+	location: {
+		lat: 0,
+		lng: 1
+	}
+})
+
 app.listen(PORT);
