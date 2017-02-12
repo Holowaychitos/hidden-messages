@@ -157,7 +157,7 @@
 
 		      	document.getElementById('messages30m').innerHTML = response.data.length
 		      	document.getElementById('messagesNear').innerHTML = response.data.length
-		      	document.getElementById('activePlayers').innerHTML = Math.max(response.data.length, 2)
+		      	document.getElementById('activePlayers').innerHTML = Math.min(response.data.length, 2)
 
 		      	response.data.forEach(i => circle(i.location, i._id))
 		      })
