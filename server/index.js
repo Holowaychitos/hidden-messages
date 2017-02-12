@@ -22,9 +22,7 @@ const querySchema = Joi.object().keys({
 
 var MESSAGE_STORE = []
 
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
+app.use(bodyParser.json())
 
 function saveMessage(message) {
 	return new Promise((resolve, reject) => {
