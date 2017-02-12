@@ -3,6 +3,7 @@ const app = express()
 
 const Joi = require('joi')
 const _ = require('lodash')
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3000
 
@@ -21,7 +22,9 @@ const querySchema = Joi.object().keys({
 
 var MESSAGE_STORE = []
 
-app.use(express.bodyParser())
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
 
 function saveMessage(message) {
 	return new Promise((resolve, reject) => {
