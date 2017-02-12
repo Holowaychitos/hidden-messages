@@ -107,6 +107,7 @@ app.post('/message', function (req, res) {
 console.log('SERVER STARTING', PORT)
 
 // initializing
+/*
 saveMessage({
 	text: 'Im a test message',
 	location: {
@@ -114,5 +115,6 @@ saveMessage({
 		lng: 1
 	}
 })
+*/
 
 app.listen(PORT);

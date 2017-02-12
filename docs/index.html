@@ -83,7 +83,7 @@
 		<div class="sidebar">
 			<div class="sidebar-spacer"></div>
 			<div class="sidebar-info">
-				<div class="sidebar-info-value">
+				<div class="sidebar-info-value" id="activePlayers">
 					2
 				</div>
 				<div class="sidebar-info-title">
@@ -157,6 +157,7 @@
 
 		      	document.getElementById('messages30m').innerHTML = response.data.length
 		      	document.getElementById('messagesNear').innerHTML = response.data.length
+		      	document.getElementById('activePlayers').innerHTML = Math.max(response.data.length, 2)
 
 		      	response.data.forEach(i => circle(i.location, i._id))
 		      })
