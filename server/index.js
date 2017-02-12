@@ -23,6 +23,11 @@ const querySchema = Joi.object().keys({
 var MESSAGE_STORE = []
 
 app.use(bodyParser.json())
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+})
 
 function saveMessage(message) {
 	return new Promise((resolve, reject) => {
