@@ -1,9 +1,155 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title>Hidden Messages</title>
-</head>
-<body>
-	<h1>Find and create hidden messages in the space ;)</h1>
-</body>
+	<header>
+			<style>
+				* {
+					position: relative;
+					margin: 0;
+					padding: 0;
+				}
+				html {
+				  box-sizing: border-box;
+				}
+				*, *:before, *:after {
+				  box-sizing: inherit;
+				}
+				#map {
+				  height: 100vw;
+				  background: #000;
+				}
+
+				body {
+					font-family: 'Helvetica Neue', arial, sans-serif;
+					font-weight: 300;
+					text-shadow: rgba(0, 0, 0, 0.1) 0 1px 0, rgba(0, 0, 0, 0.1) 0 2px 6px;
+					color: #fff;
+					font-size: 22px;
+				}
+
+				h1 {
+					font-weight: 100;
+					font-size: 3rem;
+					flex: 1;
+				}
+
+				.topnav {
+					position: fixed;
+					top: 0;
+					left: 0;
+					padding: 2rem 2rem 5rem;
+					z-index: 10;
+					display: flex;
+					width: 100%;
+					align-content: center;
+					align-items: center;
+					background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+					pointer-events: none;
+				}
+
+				.sidebar {
+					display: flex;
+					flex-direction: column;
+					position: fixed;
+					z-index: 9;
+					left: 0;
+					bottom: 0;
+					pointer-events: none;
+					background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+					height: 100vh;
+				}
+				.sidebar-info {
+					padding: 2rem;
+				}
+				.sidebar-info-value {
+					font-size: 2rem;
+					font-weight: 400;
+				}
+				.sidebar-spacer {
+					flex: 1;
+				}
+
+			</style>
+	</header>
+
+	<body>
+		<div class="topnav">
+			<h1>Hidden Messages</h1>
+
+			<div class="info">
+				Find and create hidden messages in the space using Sony Project N
+			</div>
+		</div>
+
+		<div class="sidebar">
+			<div class="sidebar-spacer"></div>
+			<div class="sidebar-info">
+				<div class="sidebar-info-value">
+					123
+				</div>
+				<div class="sidebar-info-title">
+					Active Players
+				</div>
+			</div>
+
+			<div class="sidebar-info">
+				<div class="sidebar-info-value">
+					8
+				</div>
+				<div class="sidebar-info-title">
+					Messages Last 30m
+				</div>
+			</div>
+
+			<div class="sidebar-info">
+				<div class="sidebar-info-value">
+					54
+				</div>
+				<div class="sidebar-info-title">
+					Messages Near You
+				</div>
+			</div>
+		</div>
+
+		<div id="map"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"></script>
+		<script>
+			var DATA = []
+
+			function initMap() {
+	      // Create a map object and specify the DOM element for display.
+	      var map = new google.maps.Map(document.getElementById('map'), {
+	      	center: {
+	      		"lat": 37.7331677,
+	      		"lng": -122.4380754
+	      	},
+	      	scrollwheel: false,
+	      	zoom: 13,
+	      	disableDefaultUI: true,
+	      	styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#193341"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#2c5a71"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#29768a"},{"lightness":-37}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#406d80"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#406d80"}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#3e606f"},{"weight":2},{"gamma":0.84}]},{"elementType":"labels.text.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"weight":0.6},{"color":"#1a3541"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#2c5a71"}]}]
+	      });
+	      
+	      
+	      function circle (center) {
+	      	new google.maps.Circle({
+	      		strokeColor: '#FFF',
+	      		strokeOpacity: 0.75,
+	      		strokeWeight: 1,
+	      		fillColor: '#FFF',
+	      		fillOpacity: 0.15,
+	      		map: map,
+	      		center: center,
+	      		radius: 500,
+	      	})
+	      } 
+	      
+	      axios.get('http://go.javier.xyz:7904/message/all')
+	      .then(response => {
+	      	console.log(response.data)
+	      	response.data.forEach(i => circle(i.location))
+	      })
+	    }
+	  </script>
+
+
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxzEg5otVs2uh8tzDWrvdQhOr4qlH0xPQ&callback=initMap" async defer></script>
+	</body>
 </html>
