@@ -79,6 +79,8 @@ app.get('/message/all', function (req, res) {
 
 // creates a new message
 app.post('/message', function (req, res) {
+	console.log('REQ', req)
+
 	Joi.validate(req.body, messageSchema, function (err, value) {
 		if (err) {
 			console.log(err)
